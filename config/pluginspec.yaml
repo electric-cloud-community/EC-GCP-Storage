@@ -1,0 +1,71 @@
+pluginInfo:
+  # This is default sample specification
+  # Feel free to change it
+  # Call flowpdk showdoc pluginspec to see the list of available fields and their description
+  pluginName: 'EC-GCP-Storage'
+  version: '1.0.0'
+  description: 'This plugin integrates with Google Cloud Storage'
+  author: 'Polina'
+  supportUrl: 'none'
+  category: 'Resource Management'
+  shell: 'ec-groovy'
+
+# Plugin configuration description
+configuration:
+  # This is a shell used for checking connection
+  shell: 'ec-groovy'
+  # A script for checking connection will be generated
+  checkConnection: 'true'
+  # A set of fields will be added to process debug level in the configuration
+  hasDebugLevel: true
+  parameters:
+  -
+    name: config
+    documentation: The name for the created configuration
+    required: true
+    type: entry
+    label: Configuration Name
+  -
+    name: desc
+    documentation: Description for the configuration
+    required: false
+    type: entry
+    label: Description
+  -
+    name: projectId
+    documentation: Google cloud project id
+    required: false
+    type: entry
+    label: Project Id
+  -
+    name: credential
+    documentation: Service account key in JSON format
+    required: true
+    type: credential
+    credentialType: key
+    label: Service Account Key
+
+procedures:
+-
+  name: Download Objects
+  description: This procedure downloads object from the specified path into the filesystem
+  hasConfig: true
+  parameters:
+  -
+    name: bucketName
+    documentation: Name of the bucket
+    required: true
+    type: entry
+    label: Bucket
+  - name: path
+    required: true
+    type: entry
+    label: Path
+  - name: dest
+    label: Destination
+    type: entry
+    required: true
+    documentation: Destination folder on the filesystem
+
+
+
