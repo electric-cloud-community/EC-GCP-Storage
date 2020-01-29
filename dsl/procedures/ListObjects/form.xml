@@ -1,0 +1,38 @@
+<!--
+    This form is generated automatically from the parameters pluginspec.
+    Please not not edit this file manually as it will be regenerated.
+-->
+<editor>
+  <help>/commander/pages/@PLUGIN_NAME@/help?s=Administration&amp;ss=Plugins#ListObjects</help>
+  <formElement>
+    <type>entry</type>
+    <property>config</property>
+    <configuration>1</configuration>
+    <propertyReference>/plugins/@PLUGIN_NAME@/project/ec_plugin_cfgs</propertyReference>
+    <required>1</required>
+    <documentation>Previously defined configuration for the plugin</documentation>
+    <label>Configuration Name:</label>
+  </formElement>
+  <formElement>
+    <type>entry</type>
+    <property>bucketName</property>
+    <required>1</required>
+    <documentation>Bucket name to list object in.</documentation>
+    <label>Bucket:</label>
+  </formElement>
+  <formElement>
+    <type>entry</type>
+    <property>path</property>
+    <required>0</required>
+    <documentation>Path to filter objects</documentation>
+    <label>Path:</label>
+  </formElement>
+  <formElement>
+    <type>entry</type>
+    <property>resultProperty</property>
+    <required>1</required>
+    <documentation>Property sheet to store results</documentation>
+    <label>Result Property Sheet:</label>
+    <value>/myJob/objects</value>
+  </formElement>
+</editor>

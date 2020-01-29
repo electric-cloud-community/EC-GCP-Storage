@@ -4,8 +4,12 @@ import com.electriccloud.client.groovy.ElectricFlow
 
 // Sample code
 ElectricFlow ef = new ElectricFlow()
-String projectId = ef.getProperty(propertyName: 'projectId')?.property?.value
 def credential = ef.getFullCredential(credentialName: 'credential')
 def key = credential?.credential?.password
-GCPWrapper gcp = new GCPWrapper(key, projectId)
-gcp.listBuckets()
+GCPWrapper gcp = new GCPWrapper(key)
+try {
+    gcp.listBuckets()
+} catch (Throwable e) {
+    ef.setProperty(propertyName: '/myJob/configError', value: e.getMessage())
+    throw e
+}

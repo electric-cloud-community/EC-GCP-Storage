@@ -32,12 +32,6 @@ configuration:
     type: entry
     label: Description
   -
-    name: projectId
-    documentation: Google cloud project id
-    required: false
-    type: entry
-    label: Project Id
-  -
     name: credential
     documentation: Service account key in JSON format
     required: true
@@ -66,6 +60,77 @@ procedures:
     type: entry
     required: true
     documentation: Destination folder on the filesystem
+  - name: overwrite
+    type: checkbox
+    checkedValue: true
+    uncheckedValue: false
+    label: Overwrite?
+    documentation: If checked, the file will be overwritten, otherwise the procedure will fail
 
+- name: List Objects
+  description: This procedure lists the objects in the specified bucket
+  hasConfig: true
+  parameters:
+    - name: bucketName
+      label: Bucket
+      documentation: Bucket name to list object in.
+      required: true
+      type: entry
+    - name: path
+      label: Path
+      required: false
+      type: entry
+      documentation: Path to filter objects
+    - name: resultProperty
+      required: true
+      value: /myJob/objects
+      label: Result Property Sheet
+      documentation: Property sheet to store results
+  outputParameters:
+    objects: JSON list of objects found
 
+- name: Upload Folder
+  hasConfig: true
+  parameters:
+    - name: bucketName
+      required: true
+      documentation: Target bucket name.
+      label: Bucket Name
+    - name: folder
+      type: entry
+      required: false
+      label: Source Folder
+      documentation: Folder path to upload. Can be either absolute or relative (will be calculated from the job workspace).
+    - name: includePatterns
+      type: textarea
+      required: false
+      label: Include Patterns
+      documentation: |
+        Regular expression for file names to include into the upload, e.g. .*log, newline-separated.
+    - name: excludePatterns
+      type: textarea
+      label: Exclude Patterns
+      documentation: |
+       Regular expression for file names to exclude from the upload, e.g. .*log, newline-separated.
+      required: false
+    - name: destination
+      required: true
+      documentation: |
+       Destination path in the target bucket, e.g. my/path. If the file in the folder named <folder>/path/file,
+       and the path is my/folder, it will be placed at gs://<bucket>/my/folder/path/file.
+      label: Destination Object Path
+    - name: makePublic
+      type: checkbox
+      checkedValue: true
+      label: Make Public?
+      documentation: If checked, the objects will be made public. Not applicable to the buckets with uniform access.
+      uncheckedValue: false
+      value: false
+      required: false
+    - name: overwrite
+      type: checkbox
+      checkedValue: true
+      documentation: If checked, the existing object will be overwritten.
+      uncheckedValue: false
+      value: false
 
