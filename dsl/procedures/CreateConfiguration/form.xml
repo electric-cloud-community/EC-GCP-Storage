@@ -20,13 +20,6 @@
     <label>Description:</label>
   </formElement>
   <formElement>
-    <type>entry</type>
-    <property>projectId</property>
-    <required>0</required>
-    <documentation>Google cloud project id</documentation>
-    <label>Project Id:</label>
-  </formElement>
-  <formElement>
     <type>credential</type>
     <property>credential</property>
     <required>1</required>

@@ -12,6 +12,7 @@ import groovy.io.FileType
 import groovy.json.JsonSlurper
 import groovy.transform.builder.Builder
 import groovy.util.logging.Slf4j
+import org.apache.tika.Tika
 
 import java.nio.file.Path
 import java.util.regex.Pattern
@@ -93,7 +94,9 @@ class GCPWrapper {
         }
     }
 
-    void uploadFolder(String bucket, String path, File folder, UploadOptions o) {
+    List<StorageObject> uploadFolder(String bucket, String path, File folder, UploadOptions o) {
+        List<StorageObject> result = []
+
         folder.eachFileRecurse(FileType.FILES) { file ->
             log.info "Found file $file.absolutePath"
             Path relative = folder.toPath().relativize(file.toPath())
@@ -114,13 +117,17 @@ class GCPWrapper {
             }
             String bucketPath = "$path/$rel"
             log.info "Uploading as $bucketPath"
-            uploadObject(bucket, bucketPath, file, o)
+            StorageObject object = uploadObject(bucket, bucketPath, file, o)
+            result << object
         }
+        return result
     }
 
 
-    void uploadObject(String bucket, String path, File file, UploadOptions p) {
-        String contentType = file.toURL().openConnection().contentType
+    StorageObject uploadObject(String bucket, String path, File file, UploadOptions p) {
+        Tika tika = new Tika()
+        String contentType = tika.detect(file)
+        log.info "File $file has content type $contentType"
         InputStreamContent contentStream = new InputStreamContent(contentType,
             new FileInputStream(file))
         contentStream.setLength(file.length())
@@ -143,6 +150,7 @@ class GCPWrapper {
         }
         StorageObject object = storage.objects().insert(bucket, objectMetadata, contentStream).execute()
         log.info "Uploaded object $path to ${object.getMediaLink()}"
+        return object
     }
 
     void deleteObject(String bucket, String path, boolean failIfMissing) {

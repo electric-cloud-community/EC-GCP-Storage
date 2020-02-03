@@ -70,8 +70,8 @@ sub fetchFromServer {
     my $httpProxy = $ENV{COMMANDER_HTTP_PROXY};
     if ($httpProxy && $ElectricCommander::VERSION >= 9.0000) {
         # Because prior 9.0, the proxy didn't work with rest calls
-        $ua->proxy(https => $httpProxy);
-        $ua->proxy(http => $httpProxy);
+        # $ua->proxy(https => $httpProxy);
+        # $ua->proxy(http => $httpProxy);
     }
 
     my $protocol = $ENV{COMMANDER_SECURE} ? 'https' : 'http';
@@ -227,7 +227,7 @@ sub deliverDependencies {
 
     my $serverVersion = $self->ec()->getVersions()->findvalue('//serverVersion/version')->string_value;
     logInfo "Server version is $serverVersion";
-    if (compareMinor($serverVersion, '9.3') >= 0) {
+    if (compareMinor($serverVersion, '9.3') >= 0 && 0) {
         $dependencies = $self->fetchFromServer($dest);
     }
     else {

@@ -18,6 +18,7 @@ def pluginDir = getProperty("/projects/$pluginName/pluginDir").value
 def stepsWithAttachedCredentials = [
     [procedureName: "Download Objects", stepName: "Download Objects"],
     [procedureName: "List Objects", stepName: "List Objects"],
+    [procedureName: "Upload Object", stepName: "Upload Object"],
     [procedureName: "Upload Folder", stepName: "Upload Folder"],
 
 ]
@@ -45,7 +46,7 @@ project pluginName, {
 def retainedProperties = []
 
 upgrade(upgradeAction, pluginName, otherPluginName, stepsWithAttachedCredentials, 'ec_plugin_cfgs', retainedProperties)
-// DO NOT EDIT THIS BLOCK === promote_autogen ends, checksum: ad8e10216eb39c41ad09b49ee6f6fbd0 ===
+// DO NOT EDIT THIS BLOCK === promote_autogen ends, checksum: f5db32558eca05e7d57cf6a7c94e6a5d ===
 // Do not edit the code above this line
 
 project pluginName, {

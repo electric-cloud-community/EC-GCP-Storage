@@ -89,6 +89,53 @@ procedures:
   outputParameters:
     objects: JSON list of objects found
 
+- name: Upload Object
+  hasConfig: true
+  parameters:
+    - name: bucketName
+      required: true
+      label: Bucket Name
+    - name: objectPath
+      required: false
+      label: File Path
+      documentation: Path to the file, may be either absolute or relative to the job workspace.
+    - name: folder
+      label: File Folder
+      documentation: Folder to look for the file if the file name is not determined.
+      required: false
+    - name: includePattern
+      label: Include Pattern
+      documentation: Include pattern to look for the file, e.g. \.log$
+    - name: excludePattern
+      label: Exclude Pattern
+      documentation: Exclude pattern to be used while looking for the file, e.g. \.log$
+    - name: destination
+      required: true
+      label: Destination Path
+    - name: makePublic
+      type: checkbox
+      checkedValue: true
+      label: Make Public?
+      documentation: If checked, the objects will be made public. Not applicable to the buckets with uniform access.
+      uncheckedValue: false
+      value: false
+      required: false
+    - name: overwrite
+      type: checkbox
+      checkedValue: true
+      documentation: If checked, the existing object will be overwritten.
+      uncheckedValue: false
+      value: false
+    - name: resultProperty
+      value: /myJob/result
+      required: true
+      type: entry
+      label: Result Property Sheet
+
+  outputParameters:
+    object: JSON representation of the uploaded object
+    objectLink: Media link of the uploaded object.
+
 - name: Upload Folder
   hasConfig: true
   parameters:
@@ -133,4 +180,11 @@ procedures:
       documentation: If checked, the existing object will be overwritten.
       uncheckedValue: false
       value: false
+    - name: resultProperty
+      value: /myJob/result
+      required: true
+      type: entry
+      label: Result Property Sheet
+  outputParameters:
+    objects: JSON representation of the uploaded objects
 

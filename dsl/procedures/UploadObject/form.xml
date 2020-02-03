@@ -3,7 +3,7 @@
     Please not not edit this file manually as it will be regenerated.
 -->
 <editor>
-  <help>/commander/pages/@PLUGIN_NAME@/help?s=Administration&amp;ss=Plugins#UploadFolder</help>
+  <help>/commander/pages/@PLUGIN_NAME@/help?s=Administration&amp;ss=Plugins#UploadObject</help>
   <formElement>
     <type>entry</type>
     <property>config</property>
@@ -17,40 +17,39 @@
     <type>entry</type>
     <property>bucketName</property>
     <required>1</required>
-    <documentation>Target bucket name.</documentation>
     <label>Bucket Name:</label>
+  </formElement>
+  <formElement>
+    <type>entry</type>
+    <property>objectPath</property>
+    <required>0</required>
+    <documentation>Path to the file, may be either absolute or relative to the job workspace.</documentation>
+    <label>File Path:</label>
   </formElement>
   <formElement>
     <type>entry</type>
     <property>folder</property>
     <required>0</required>
-    <documentation>Folder path to upload. Can be either absolute or relative (will be calculated from the job workspace).</documentation>
-    <label>Source Folder:</label>
+    <documentation>Folder to look for the file if the file name is not determined.</documentation>
+    <label>File Folder:</label>
   </formElement>
   <formElement>
-    <type>textarea</type>
-    <property>includePatterns</property>
-    <required>0</required>
-    <documentation>Regular expression for file names to include into the upload, e.g. .*log, newline-separated.
-</documentation>
-    <label>Include Patterns:</label>
+    <type>entry</type>
+    <property>includePattern</property>
+    <documentation>Include pattern to look for the file, e.g. \.log$</documentation>
+    <label>Include Pattern:</label>
   </formElement>
   <formElement>
-    <type>textarea</type>
-    <property>excludePatterns</property>
-    <required>0</required>
-    <documentation>Regular expression for file names to exclude from the upload, e.g. .*log, newline-separated.
-</documentation>
-    <label>Exclude Patterns:</label>
+    <type>entry</type>
+    <property>excludePattern</property>
+    <documentation>Exclude pattern to be used while looking for the file, e.g. \.log$</documentation>
+    <label>Exclude Pattern:</label>
   </formElement>
   <formElement>
     <type>entry</type>
     <property>destination</property>
     <required>1</required>
-    <documentation>Destination path in the target bucket, e.g. my/path. If the file in the folder named &lt;folder&gt;/path/file,
-and the path is my/folder, it will be placed at gs://&lt;bucket&gt;/my/folder/path/file.
-</documentation>
-    <label>Destination Object Path:</label>
+    <label>Destination Path:</label>
   </formElement>
   <formElement>
     <type>checkbox</type>
