@@ -1,3 +1,4 @@
+import com.cloudbees.flowpdf.Credential
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.http.HttpTransport
@@ -23,8 +24,10 @@ class GCPWrapper {
     Storage storage
     String project
 
+    private GoogleCredential credential
+
     GCPWrapper(String key) {
-        GoogleCredential credential = GoogleCredential.fromStream(new ByteArrayInputStream(key.getBytes('UTF-8')))
+        credential = GoogleCredential.fromStream(new ByteArrayInputStream(key.getBytes('UTF-8')))
 
         List<String> scopes = new ArrayList<>()
         // Set Google Cloud Storage scope to Full Control.
@@ -39,14 +42,14 @@ class GCPWrapper {
             .setApplicationName('@PLUGIN_NAME@')
             .build()
 
-        Map<String, String> parsedKey = new JsonSlurper().parseText(key)
-        String projectId = parsedKey.project_id
+        String projectId = credential.getServiceAccountProjectId()
         log.info "Using project $projectId"
         this.project = projectId
     }
 
-    def downloadObject() {
-
+    def testConnection() {
+        storage.projects().serviceAccount().get(project).execute()
+        return true
     }
 
     def downloadObjects(String bucket, String path, File dest, DownloadOptions o) {
@@ -148,6 +151,7 @@ class GCPWrapper {
         if (existing && !p.overwrite) {
             throw new RuntimeException("The object ${existing.getMediaLink()} already exists and overwrite flag is not set")
         }
+
         StorageObject object = storage.objects().insert(bucket, objectMetadata, contentStream).execute()
         log.info "Uploaded object $path to ${object.getMediaLink()}"
         return object
