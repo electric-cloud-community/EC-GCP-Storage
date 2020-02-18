@@ -188,3 +188,31 @@ procedures:
   outputParameters:
     objects: JSON representation of the uploaded objects
 
+
+- name: Run Script
+  hasConfig: true
+  description: Runs a custom groovy script with the prepared Storage client
+  parameters:
+    - name: script
+      type: textarea
+      label: Script
+      required: true
+      documentation: |
+        Script to evaluate. The following variables are accessible:
+
+        storage - storage client
+        ef - ElectricFlow Groovy API client
+        zone - zone name from the configuration
+        project - project ID from the configuration
+        wrapper - Storage wrapper from this plugin
+
+        Both wrapper and compute clients are already initialized.
+
+      value: |
+        println "Storage raw client: $storage"
+        println "Project ID: $project"
+        println "Flow Client: $ef"
+        println "Storage Wrapper: $wrapper"
+
+  outputParameters:
+    output: Some output parameter to use in the script

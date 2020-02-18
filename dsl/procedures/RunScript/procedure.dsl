@@ -1,6 +1,6 @@
 // This procedure.dsl was generated automatically
 // DO NOT EDIT THIS BLOCK === procedure_autogen starts ===
-procedure 'Upload Folder', description: '''''', {
+procedure 'Run Script', description: '''Runs a custom groovy script with the prepared Storage client''', {
 
     // Handling binary dependencies
     step 'flowpdk-setup', {
@@ -11,9 +11,9 @@ procedure 'Upload Folder', description: '''''', {
         ]
     }
 
-    step 'Upload Folder', {
+    step 'Run Script', {
         description = ''
-        command = new File(pluginDir, "dsl/procedures/UploadFolder/steps/UploadFolder.groovy").text
+        command = new File(pluginDir, "dsl/procedures/RunScript/steps/RunScript.groovy").text
         shell = 'ec-groovy'
         shell = 'ec-groovy -cp $[/myJob/flowpdk_classpath]'
 
@@ -22,9 +22,9 @@ procedure 'Upload Folder', description: '''''', {
         postProcessor = '''$[/myProject/perl/postpLoader]'''
     }
 
-    formalOutputParameter 'objects',
-        description: 'JSON representation of the uploaded objects'
-// DO NOT EDIT THIS BLOCK === procedure_autogen ends, checksum: 3852b705e9e08bc1406fe708da939b41 ===
+    formalOutputParameter 'output',
+        description: 'Some output parameter to use in the script'
+// DO NOT EDIT THIS BLOCK === procedure_autogen ends, checksum: 6529007123e43881ce5630af22c9c36a ===
 // Do not update the code above the line
 // procedure properties declaration can be placed in here, like
 // property 'property name', value: "value"

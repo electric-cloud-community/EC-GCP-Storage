@@ -13,6 +13,7 @@ use File::Spec;
 use File::Path qw(mkpath);
 use File::Temp q(tempfile);
 use File::Copy::Recursive qw(rcopy);
+use Fcntl ':flock';
 
 $|++;
 
@@ -81,12 +82,23 @@ sub fetchFromServer {
     my $server = $ENV{COMMANDER_SERVER} || 'localhost';
     my $pluginName = '@PLUGIN_NAME@';
     my $url = "$protocol://$server:$port/rest/v1.0/plugins/$pluginName/agent-dependencies";
-    my $dependencies = File::Spec->catfile($dest, ".cbDependenciesTarget.zip");
-    my $response = $ua->get($url,
-        cookie => "sessionId=$session",
-        ':content_file' => $dependencies
+
+    my ($fh, $dependencies) = tempfile("dependenciesXXXXX",
+        DIR => $dest,
+        CLEANUP => 1,
+        SUFFIX => '.zip',
     );
 
+    my $response;
+    eval {
+        $response = $ua->get($url,
+            cookie => "sessionId=$session",
+            ':content_file' => $dependencies
+        );
+        1;
+    } or do {
+        logError("Failed to retrieve dependencies from the server: $@");
+    };
     unless($response->is_success) {
         logError "Failed to retrieve dependencies from the server: code " . $response->code . ", status: " . $response->status_line . ", message: " . $response->content;
         die "Failed to retrieve dependencies from the server: " . $response->code;
@@ -106,8 +118,11 @@ sub fetchFromDsl {
     my $hasMore = 1;
     my $offset = 0;
 
-    my $dependencies = File::Spec->catfile($dest, ".cbDependenciesTarget.zip");
-    open my $fh, ">$dependencies" or die "Cannot open $dependencies: $!";
+    my ($fh, $dependencies) = tempfile("dependenciesXXXXX",
+        DIR => $dest,
+        CLEANUP => 1,
+        SUFFIX => '.zip',
+    );
     binmode $fh;
     my $source = $ec->getPropertyValue('/server/settings/pluginsDirectory') .'/@PLUGIN_NAME@/agent';
     while($hasMore) {
@@ -206,6 +221,7 @@ sub deliverDependencies {
     if ($dependsOnPlugins) {
         $self->setupParentPlugins($dependsOnPlugins);
     }
+    my $dest = File::Spec->catfile($ENV{COMMANDER_PLUGINS}, '@PLUGIN_NAME@/agent');
 
     logInfo "Grabbed resource $resName";
 
@@ -221,13 +237,13 @@ sub deliverDependencies {
 
     my $source = $self->ec->getPropertyValue('/server/settings/pluginsDirectory') .'/@PLUGIN_NAME@/agent';
     logInfo "Fetching dependencies from $source";
-    my $dest = File::Spec->catfile($ENV{COMMANDER_PLUGINS}, '@PLUGIN_NAME@/agent');
     mkpath($dest);
+
     my $dependencies;
 
     my $serverVersion = $self->ec()->getVersions()->findvalue('//serverVersion/version')->string_value;
     logInfo "Server version is $serverVersion";
-    if (compareMinor($serverVersion, '9.3') >= 0 && 0) {
+    if (compareMinor($serverVersion, '9.3') >= 0) {
         $dependencies = $self->fetchFromServer($dest);
     }
     else {

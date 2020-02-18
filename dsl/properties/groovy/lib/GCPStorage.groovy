@@ -6,6 +6,7 @@ import com.google.api.services.storage.model.StorageObject
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.util.FileNameFinder
+import org.codehaus.groovy.control.CompilerConfiguration
 
 import java.util.regex.Pattern
 
@@ -250,6 +251,55 @@ class GCPStorage extends FlowPlugin {
         FlowAPI.setFlowProperty("$result/link", object.getMediaLink())
     }
 
+/**
+    * runScript - Run Script/Run Script
+    * Add your code into this method and it will be called when the step runs
+    * @param config (required: true)
+    * @param script (required: true)
+    
+    */
+    def runScript(StepParameters p, StepResult sr) {
+
+        /* Log is automatically available from the parent class */
+        log.info(
+          "runScript was invoked with StepParameters",
+          /* runtimeParameters contains both configuration and procedure parameters */
+          p.toString()
+        )
+
+        String script = p.getRequiredParameter('script').value
+        def storageClient = storage.storage
+        def compilerConfiguration = new CompilerConfiguration()
+        compilerConfiguration.scriptBaseClass = DelegatingScript.class.name
+        def shell = new GroovyShell(this.class.classLoader, new Binding([storage: storageClient]), compilerConfiguration)
+        def gcpScript = new StorageScript(storageClient, storage.project,FlowAPI.ec, storage)
+        Script s = shell.parse(script)
+        s.setDelegate(gcpScript)
+        def result = s.run()
+        log.info "Script evaluation result: $result"
+        if (result) {
+            sr.setOutputParameter('output', JsonOutput.toJson(result))
+            sr.setJobStepSummary(new JsonBuilder(result).toPrettyString())
+        }
+
+    }
+
 // === step ends ===
+
+}
+
+
+class StorageScript {
+    def storage
+    def project
+    def ef
+    def wrapper
+
+    StorageScript(storage, project, ef, wrapper) {
+        this.storage = storage
+        this.project = project
+        this.ef = ef
+        this.wrapper = wrapper
+    }
 
 }

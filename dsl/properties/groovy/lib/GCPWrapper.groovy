@@ -80,13 +80,8 @@ class GCPWrapper {
 
     List<StorageObject> listObjects(String bucket, String path) {
         path = path.replaceAll(/\/$/, '')
-        List<StorageObject> objects = storage.objects().list(bucket).execute().getItems()
+        List<StorageObject> objects = storage.objects().list(bucket).setPrefix(path).execute().getItems()
         log.info "Looking for objects with names starting with $path"
-        if (path) {
-            objects = objects.findAll {
-                it.getName().startsWith(path)
-            }
-        }
         return objects
     }
 
@@ -131,8 +126,7 @@ class GCPWrapper {
         Tika tika = new Tika()
         String contentType = tika.detect(file)
         log.info "File $file has content type $contentType"
-        InputStreamContent contentStream = new InputStreamContent(contentType,
-            new FileInputStream(file))
+        InputStreamContent contentStream = new InputStreamContent(contentType, new FileInputStream(file))
         contentStream.setLength(file.length())
         log.info "Set length to ${file.length()}"
         StorageObject objectMetadata = new StorageObject().setName(path)
@@ -155,7 +149,10 @@ class GCPWrapper {
         StorageObject object = storage.objects().insert(bucket, objectMetadata, contentStream).execute()
         log.info "Uploaded object $path to ${object.getMediaLink()}"
         return object
+
     }
+
+
 
     void deleteObject(String bucket, String path, boolean failIfMissing) {
         boolean exist = false

@@ -17,11 +17,11 @@ procedure 'Download Objects', description: '''This procedure downloads object fr
         shell = 'ec-groovy'
         shell = 'ec-groovy -cp $[/myJob/flowpdk_classpath]'
 
-        resourceName = '$[flowpdkResource]'
+        resourceName = '$[/myJobStep/parent/steps/flowpdk-setup/flowpdkResource]'
 
         postProcessor = '''$[/myProject/perl/postpLoader]'''
     }
-// DO NOT EDIT THIS BLOCK === procedure_autogen ends, checksum: c07e7849e7b88fe00ba1e255836dd768 ===
+// DO NOT EDIT THIS BLOCK === procedure_autogen ends, checksum: 896be890f09c5a22d92902448c4071ea ===
 // Do not update the code above the line
 // procedure properties declaration can be placed in here, like
 // property 'property name', value: "value"
