@@ -16,6 +16,7 @@ import groovy.util.logging.Slf4j
 import org.apache.tika.Tika
 
 import java.nio.file.Path
+import java.time.DateTimeException
 import java.util.regex.Pattern
 
 @Slf4j
@@ -80,9 +81,23 @@ class GCPWrapper {
 
     List<StorageObject> listObjects(String bucket, String path) {
         path = path.replaceAll(/\/$/, '')
-        List<StorageObject> objects = storage.objects().list(bucket).setPrefix(path).execute().getItems()
+        def operation = storage.objects().list(bucket).setPrefix(path).execute()
+        String nextPageToken = operation.getNextPageToken()
         log.info "Looking for objects with names starting with $path"
-        return objects
+        log.info "Next page token: $nextPageToken"
+        List<StorageObject> retval = []
+        List<StorageObject> objects = operation.getItems()
+        log.info "Found ${objects.size()} objects"
+        retval.addAll(objects)
+        while (nextPageToken) {
+            operation = storage.objects().list(bucket).setPrefix(path).setPageToken(nextPageToken).execute()
+            nextPageToken = operation.getNextPageToken()
+            log.info "Next page token: $nextPageToken"
+            log.info "Found ${operation.getItems().size()} objects"
+            retval.addAll(operation.getItems())
+        }
+        log.info "Found objects total: ${retval.size()}"
+        return retval
     }
 
     void listBuckets() {
@@ -180,6 +195,12 @@ class GCPWrapper {
             log.info "Going to delete object ${it.getName()}"
             storage.objects().delete(bucket, it.getName()).execute()
             log.info "Deleted ${it.getName()}"
+        }
+    }
+
+    void test() {
+        storage.objects().list('flow-plugin-team-test-harness').execute().getItems().each {
+            it.getUpdated().value
         }
     }
 }
