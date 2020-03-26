@@ -47,8 +47,8 @@
     <type>entry</type>
     <property>destination</property>
     <required>1</required>
-    <documentation>Destination path in the target bucket, e.g. my/path. If the file in the folder named &lt;folder&gt;/path/file,
-and the path is my/folder, it will be placed at gs://&lt;bucket&gt;/my/folder/path/file.
+    <documentation>Destination path in the target bucket, e.g. my/path. If the file in the folder named {folder}/path/file,
+and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/file.
 </documentation>
     <label>Destination Object Path:</label>
   </formElement>

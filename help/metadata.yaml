@@ -1,0 +1,10 @@
+excludeProcedures:
+  - flowpdkSetup
+proceduresOrder:
+  - ListObjects
+  - DownloadObjects
+  - RunScript
+  - UploadFolder
+  - UploadObject
+knownIssues: |
+  NA
