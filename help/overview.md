@@ -1,1 +1,1 @@
-<p> This plugin integrates with Google Cloud Storage.
+<p> This plugin integrates with Google Cloud Storage.</p>
