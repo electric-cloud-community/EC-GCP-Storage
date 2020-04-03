@@ -17,14 +17,14 @@ procedure 'List Objects', description: '''This procedure lists the objects in th
         shell = 'ec-groovy'
         shell = 'ec-groovy -cp $[/myJob/flowpdk_classpath]'
 
-        resourceName = '$[/myJobStep/parent/steps/flowpdk-setup/flowpdkResource]'
+        resourceName = '$[flowpdkResource]'
 
         postProcessor = '''$[/myProject/perl/postpLoader]'''
     }
 
     formalOutputParameter 'objects',
         description: 'JSON list of objects found'
-// DO NOT EDIT THIS BLOCK === procedure_autogen ends, checksum: e93f10e9d13575fff2813bc512f3df26 ===
+// DO NOT EDIT THIS BLOCK === procedure_autogen ends, checksum: 62dce8ed036a8cbc983c9079b9b8f5cf ===
 // Do not update the code above the line
 // procedure properties declaration can be placed in here, like
 // property 'property name', value: "value"

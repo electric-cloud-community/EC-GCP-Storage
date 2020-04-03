@@ -1,6 +1,6 @@
 // This procedure.dsl was generated automatically
 // DO NOT EDIT THIS BLOCK === procedure_autogen starts ===
-procedure 'Upload Object', description: '''''', {
+procedure 'Upload Object', description: '''This procedure uploads an object to bucket''', {
 
     // Handling binary dependencies
     step 'flowpdk-setup', {
@@ -17,7 +17,7 @@ procedure 'Upload Object', description: '''''', {
         shell = 'ec-groovy'
         shell = 'ec-groovy -cp $[/myJob/flowpdk_classpath]'
 
-        resourceName = '$[/myJobStep/parent/steps/flowpdk-setup/flowpdkResource]'
+        resourceName = '$[flowpdkResource]'
 
         postProcessor = '''$[/myProject/perl/postpLoader]'''
     }
@@ -27,7 +27,7 @@ procedure 'Upload Object', description: '''''', {
 
     formalOutputParameter 'objectLink',
         description: 'Media link of the uploaded object.'
-// DO NOT EDIT THIS BLOCK === procedure_autogen ends, checksum: aab74b93314a9476b6966328fa75e01b ===
+// DO NOT EDIT THIS BLOCK === procedure_autogen ends, checksum: cb8917e42bca3cb7fbdeaddc4f3cc7bd ===
 // Do not update the code above the line
 // procedure properties declaration can be placed in here, like
 // property 'property name', value: "value"

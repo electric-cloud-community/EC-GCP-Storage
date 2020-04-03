@@ -90,6 +90,7 @@ procedures:
     objects: JSON list of objects found
 
 - name: Upload Object
+  description: This procedure uploads an object to bucket
   hasConfig: true
   parameters:
     - name: bucketName
@@ -137,6 +138,7 @@ procedures:
     objectLink: Media link of the uploaded object.
 
 - name: Upload Folder
+  description: This procedure uploads a folder to bucket
   hasConfig: true
   parameters:
     - name: bucketName
@@ -163,8 +165,8 @@ procedures:
     - name: destination
       required: true
       documentation: |
-       Destination path in the target bucket, e.g. my/path. If the file in the folder named <folder>/path/file,
-       and the path is my/folder, it will be placed at gs://<bucket>/my/folder/path/file.
+       Destination path in the target bucket, e.g. my/path. If the file in the folder named {folder}/path/file,
+       and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/file.
       label: Destination Object Path
     - name: makePublic
       type: checkbox
