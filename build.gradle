@@ -14,14 +14,13 @@ dependencies {
     implementation 'org.codehaus.groovy:groovy-all:2.4.13'
 
     // Change the version if you have upgraded the groovy library
-    implementation 'com.electriccloud.plugins:flowpdf-groovy-lib:1.0.0.0'
+    implementation 'com.electriccloud.plugins:flowpdf-groovy-lib:1.0.1.0'
 
     compile group: 'com.google.api-client', name: 'google-api-client', version: '1.30.5'
     compile group: 'com.google.apis', name: 'google-api-services-storage', version: '+'
     implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     implementation 'org.apache.tika:tika-core:1.14'
-
 
     compile 'com.google.auth:google-auth-library-oauth2-http:0.19.0'
 
