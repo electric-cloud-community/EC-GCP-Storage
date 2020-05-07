@@ -67,6 +67,35 @@ procedures:
     label: Overwrite?
     documentation: If checked, the file will be overwritten, otherwise the procedure will fail
 
+-
+  name: Download Object
+  description: This procedure download specific object from the specified path into the filesystem
+  hasConfig: true
+  parameters:
+    -
+      name: bucketName
+      documentation: Name of the bucket
+      required: true
+      type: entry
+      label: Bucket
+    - name: path
+      required: true
+      type: entry
+      label: File Name
+      documentation: Full path to the file in bucket
+    - name: dest
+      label: Destination
+      type: entry
+      required: true
+      documentation: Destination folder on the filesystem
+    - name: overwrite
+      type: checkbox
+      checkedValue: true
+      uncheckedValue: false
+      label: Overwrite?
+      documentation: If checked, the file will be overwritten, otherwise the procedure will fail
+
+
 - name: List Objects
   description: This procedure lists the objects in the specified bucket
   hasConfig: true

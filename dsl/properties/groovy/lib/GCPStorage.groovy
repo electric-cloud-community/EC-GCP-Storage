@@ -284,6 +284,47 @@ class GCPStorage extends FlowPlugin {
 
     }
 
+/**
+    * downloadObject - Download Object/Download Object
+    * Add your code into this method and it will be called when the step runs
+    * @param config (required: true)
+    * @param bucketName (required: true)
+    * @param path - file Name for downloading (required: true)
+    * @param dest (required: true)
+    * @param overwrite (required: )
+    
+    */
+    def downloadObject(StepParameters p, StepResult sr) {
+
+        /* Log is automatically available from the parent class */
+        log.info(
+          "downloadObject was invoked with StepParameters",
+          /* runtimeParameters contains both configuration and procedure parameters */
+          p.toString()
+        )
+        String path = p.getRequiredParameter('path')?.value
+        String dest = p.getRequiredParameter('dest')?.value
+        String bucket = p.getRequiredParameter('bucketName')?.value
+
+        File d = new File(dest)
+        if (!d.isAbsolute()) {
+            d = new File(System.getProperty('user.dir'), dest)
+        }
+        boolean overwrite = p.getParameter('overwrite')?.value == 'true'
+        DownloadOptions o = DownloadOptions.builder().overwrite(overwrite).build()
+        storage.downloadObject(bucket, path, d, o)
+        /*
+        Context context = getContext()
+
+        // Setting job step summary to the config name
+        sr.setJobStepSummary(p.getParameter('config').getValue() ?: 'null')
+
+        sr.setReportUrl("Sample Report", 'https://cloudbees.com')
+        sr.apply()
+        log.info("step Download Object has been finished")
+        */
+    }
+
 // === step ends ===
 
 }

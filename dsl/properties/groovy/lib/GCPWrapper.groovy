@@ -53,6 +53,20 @@ class GCPWrapper {
         return true
     }
 
+    def downloadObject(String bucket, String fileName, File dest, DownloadOptions o) {
+        log.info "Created $dest.absolutePath"
+        log.info "Downloading File $fileName from Bucket: $bucket, to folder: $dest.absolutePath"
+        dest.parentFile.mkdirs()
+        if (dest.exists() && !o.overwrite) {
+            throw new RuntimeException("The file $dest.absolutePath already exists")
+        }
+        InputStream is = storage.objects().get(bucket, fileName).executeMediaAsInputStream()
+        dest.withOutputStream { os ->
+            os << is
+        }
+        log.info "The File $fileName from Bucket: $bucket, to folder: $dest.absolutePath has been downloaded successfully"
+    }
+
     def downloadObjects(String bucket, String path, File dest, DownloadOptions o) {
         dest.mkdirs()
         log.info "Created $dest.absolutePath"
