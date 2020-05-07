@@ -225,6 +225,65 @@
         
     </div>
 
+    <div id="DownloadObject">
+        <h2>Download Object</h2>
+
+
+        <p>This procedure download one object from the specified path into the filesystem</p>
+
+
+        <h3>Download Objects Parameters</h3>
+        <table class="grid">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+
+                    <td class="required">Configuration Name</td>
+                    <td>Previously defined configuration for the plugin</td>
+
+                </tr>
+
+                <tr>
+
+                    <td class="required">Bucket</td>
+                    <td>Name of the bucket</td>
+
+                </tr>
+
+                <tr>
+
+                    <td class="required">File Name</td>
+                    <td>Full file name path from bucket root</td>
+
+                </tr>
+
+                <tr>
+
+                    <td class="required">Destination</td>
+                    <td>Destination folder on the filesystem</td>
+
+                </tr>
+
+                <tr>
+
+                    <td >Overwrite?</td>
+                    <td>If checked, the file will be overwritten, otherwise the procedure will fail</td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+
+
+
+    </div>
     
     <div id="ListObjects">
         <h2>List Objects</h2>
