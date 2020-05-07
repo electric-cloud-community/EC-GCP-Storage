@@ -3,7 +3,7 @@ pluginInfo:
   # Feel free to change it
   # Call flowpdk showdoc pluginspec to see the list of available fields and their description
   pluginName: 'EC-GCP-Storage'
-  version: '1.1.0'
+  version: '1.2.0'
   description: 'This plugin integrates with Google Cloud Storage'
   author: 'Polina'
   supportUrl: 'none'
