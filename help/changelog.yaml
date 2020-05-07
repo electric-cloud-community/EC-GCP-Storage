@@ -2,3 +2,7 @@
   - Introduced the EC-GCP-Storage plugin.
 1.0.1:
   - Help document Added.
+1.1.0:
+  - Switched plugin to the cleaned layout.
+1.2.0:
+  - Procedure "Download Object" has been added.

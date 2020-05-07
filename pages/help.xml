@@ -14,7 +14,7 @@
     <h1>@PLUGIN_KEY@</h1>
     <p>Plugin version @PLUGIN_VERSION@</p>
     
-    <p>Revised on Mar 26, 2020</p>
+    <p>Revised on May 07, 2020</p>
     
     <hr style="margin-left: -10px; margin-top: 10px; height: 1px; width: 100%; color: #5981BD;" noshade="noshade"/>
     <h1>Contents</h1>
@@ -37,6 +37,9 @@
     
 
     <ul>
+        
+
+        <li><a href="#DownloadObject">Download Object</a></li>
         
 
         <li><a href="#DownloadObjects">Download Objects</a></li>
@@ -98,7 +101,7 @@
         </p>
 
         <h3>Creating Plugin Configurations</h3>
-        <p>To create plugin configurations in CloudBees Flow,
+        <p>To create plugin configurations in CloudBees CD,
             do these steps:</p>
 
         <li>Go to <b>Administration</b> &gt; <b>Plugins</b> to open the Plugin Manager.</li>
@@ -107,7 +110,8 @@
              Configurations page.</li>
         <li>Click <b>Create Configuration</b> as per the description of parameters below.</li>
         
-        Configuration Parameters
+
+        <h2>Configuration Procedure Parameters</h2>
         <table class="grid">
             <thead>
             <tr>
@@ -138,20 +142,6 @@
                 
             </tr>
             
-            <tr>
-                
-                    <td >Check Connection?</td>
-                    <td>If checked, a connection endpoint and credentials will be tested before save. The configuration will not be saved if the test fails.</td>
-                
-            </tr>
-            
-            <tr>
-                
-                    <td >Debug Level</td>
-                    <td>This option sets debug level for logs. If info is selected, only summary information will be shown, for debug, there will be some debug information and for trace the whole requests and responses will be shown.</td>
-                
-            </tr>
-            
             </tbody>
         </table>
         
@@ -163,6 +153,60 @@
     <h1 id="procedures">Plugin Procedures</h1>
     
     
+
+    
+    <div id="DownloadObject">
+        <h2>Download Object</h2>
+        
+        
+        <p>This procedure download specific object from the specified path into the filesystem</p>
+        
+        
+        <h3>Download Object Parameters</h3>
+        <table class="grid">
+            <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            <tr>
+                
+                <td class="required">Bucket</td>
+                <td>Name of the bucket</td>
+                
+            </tr>
+            
+            <tr>
+                
+                <td class="required">File Name</td>
+                <td>Full path to the file in bucket.</td>
+                
+            </tr>
+            
+            <tr>
+                
+                <td class="required">Destination</td>
+                <td>Destination file on the filesystem.</td>
+                
+            </tr>
+            
+            <tr>
+                
+                <td >Overwrite?</td>
+                <td>If checked, the file will be overwritten, otherwise the procedure will fail.</td>
+                
+            </tr>
+            
+            </tbody>
+        </table>
+
+        
+
+        
+    </div>
 
     
     <div id="DownloadObjects">
@@ -184,13 +228,6 @@
             
             <tr>
                 
-                <td class="required">Configuration Name</td>
-                <td>Previously defined configuration for the plugin</td>
-                
-            </tr>
-            
-            <tr>
-                
                 <td class="required">Bucket</td>
                 <td>Name of the bucket</td>
                 
@@ -199,21 +236,21 @@
             <tr>
                 
                 <td class="required">Path</td>
-                <td></td>
+                <td>Path in the bucket to download objects from. Must be a folder prefix.</td>
                 
             </tr>
             
             <tr>
                 
                 <td class="required">Destination</td>
-                <td>Destination folder on the filesystem</td>
+                <td>Destination folder on the filesystem.</td>
                 
             </tr>
             
             <tr>
                 
                 <td >Overwrite?</td>
-                <td>If checked, the file will be overwritten, otherwise the procedure will fail</td>
+                <td>If checked, the file will be overwritten, otherwise the procedure will fail.</td>
                 
             </tr>
             
@@ -242,13 +279,6 @@
             </tr>
             </thead>
             <tbody>
-            
-            <tr>
-                
-                <td class="required">Configuration Name</td>
-                <td>Previously defined configuration for the plugin</td>
-                
-            </tr>
             
             <tr>
                 
@@ -317,13 +347,6 @@
             
             <tr>
                 
-                <td class="required">Configuration Name</td>
-                <td>Previously defined configuration for the plugin</td>
-                
-            </tr>
-            
-            <tr>
-                
                 <td class="required">Script</td>
                 <td>Script to evaluate. The following variables are accessible:
 
@@ -384,13 +407,6 @@ Both wrapper and compute clients are already initialized.
             
             <tr>
                 
-                <td class="required">Configuration Name</td>
-                <td>Previously defined configuration for the plugin</td>
-                
-            </tr>
-            
-            <tr>
-                
                 <td class="required">Bucket Name</td>
                 <td>Target bucket name.</td>
                 
@@ -437,7 +453,7 @@ and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/fil
             
             <tr>
                 
-                <td ></td>
+                <td >overwrite</td>
                 <td>If checked, the existing object will be overwritten.</td>
                 
             </tr>
@@ -445,7 +461,7 @@ and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/fil
             <tr>
                 
                 <td class="required">Result Property Sheet</td>
-                <td></td>
+                <td>Result property sheet to save results to.</td>
                 
             </tr>
             
@@ -495,15 +511,8 @@ and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/fil
             
             <tr>
                 
-                <td class="required">Configuration Name</td>
-                <td>Previously defined configuration for the plugin</td>
-                
-            </tr>
-            
-            <tr>
-                
                 <td class="required">Bucket Name</td>
-                <td></td>
+                <td>Name of the bucket to upload objects to.</td>
                 
             </tr>
             
@@ -538,7 +547,7 @@ and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/fil
             <tr>
                 
                 <td class="required">Destination Path</td>
-                <td></td>
+                <td>Path in the bucket to upload objects to.</td>
                 
             </tr>
             
@@ -551,7 +560,7 @@ and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/fil
             
             <tr>
                 
-                <td ></td>
+                <td >overwrite</td>
                 <td>If checked, the existing object will be overwritten.</td>
                 
             </tr>
@@ -559,7 +568,7 @@ and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/fil
             <tr>
                 
                 <td class="required">Result Property Sheet</td>
-                <td></td>
+                <td>Property sheet to save results.</td>
                 
             </tr>
             
@@ -614,6 +623,20 @@ and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/fil
     
 
     <h1 id="releaseNotes">Release Notes</h1>
+    
+    <h3>@PLUGIN_KEY@ 1.2.0</h3>
+    <ul>
+        
+        <li>Procedure "Download Object" has been added.</li>
+        
+    </ul>
+    
+    <h3>@PLUGIN_KEY@ 1.1.0</h3>
+    <ul>
+        
+        <li>Switched plugin to the cleaned layout.</li>
+        
+    </ul>
     
     <h3>@PLUGIN_KEY@ 1.0.1</h3>
     <ul>

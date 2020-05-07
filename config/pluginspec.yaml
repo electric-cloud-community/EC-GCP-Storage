@@ -55,17 +55,18 @@ procedures:
     required: true
     type: entry
     label: Path
+    documentation: Path in the bucket to download objects from. Must be a folder prefix.
   - name: dest
     label: Destination
     type: entry
     required: true
-    documentation: Destination folder on the filesystem
+    documentation: Destination folder on the filesystem.
   - name: overwrite
     type: checkbox
     checkedValue: true
     uncheckedValue: false
     label: Overwrite?
-    documentation: If checked, the file will be overwritten, otherwise the procedure will fail
+    documentation: If checked, the file will be overwritten, otherwise the procedure will fail.
 
 -
   name: Download Object
@@ -82,18 +83,18 @@ procedures:
       required: true
       type: entry
       label: File Name
-      documentation: Full path to the file in bucket
+      documentation: Full path to the file in bucket.
     - name: dest
       label: Destination
       type: entry
       required: true
-      documentation: Destination folder on the filesystem
+      documentation: Destination file on the filesystem.
     - name: overwrite
       type: checkbox
       checkedValue: true
       uncheckedValue: false
       label: Overwrite?
-      documentation: If checked, the file will be overwritten, otherwise the procedure will fail
+      documentation: If checked, the file will be overwritten, otherwise the procedure will fail.
 
 
 - name: List Objects
@@ -125,6 +126,7 @@ procedures:
     - name: bucketName
       required: true
       label: Bucket Name
+      documentation: Name of the bucket to upload objects to.
     - name: objectPath
       required: false
       label: File Path
@@ -142,6 +144,7 @@ procedures:
     - name: destination
       required: true
       label: Destination Path
+      documentation: Path in the bucket to upload objects to.
     - name: makePublic
       type: checkbox
       checkedValue: true
@@ -161,6 +164,7 @@ procedures:
       required: true
       type: entry
       label: Result Property Sheet
+      documentation: Property sheet to save results.
 
   outputParameters:
     object: JSON representation of the uploaded object
@@ -216,6 +220,7 @@ procedures:
       required: true
       type: entry
       label: Result Property Sheet
+      documentation: Result property sheet to save results to.
   outputParameters:
     objects: JSON representation of the uploaded objects
 
