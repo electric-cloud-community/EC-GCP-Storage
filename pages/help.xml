@@ -14,7 +14,7 @@
     <h1>@PLUGIN_KEY@</h1>
     <p>Plugin version @PLUGIN_VERSION@</p>
     
-    <p>Revised on May 07, 2020</p>
+    <p>Revised on May 08, 2020</p>
     
     <hr style="margin-left: -10px; margin-top: 10px; height: 1px; width: 100%; color: #5981BD;" noshade="noshade"/>
     <h1>Contents</h1>
@@ -453,6 +453,13 @@ and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/fil
             
             <tr>
                 
+                <td >Cache Control Header</td>
+                <td>The value for a cache control header.</td>
+                
+            </tr>
+            
+            <tr>
+                
                 <td >overwrite</td>
                 <td>If checked, the existing object will be overwritten.</td>
                 
@@ -560,6 +567,13 @@ and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/fil
             
             <tr>
                 
+                <td >Cache Control Header</td>
+                <td>The value for a cache control header.</td>
+                
+            </tr>
+            
+            <tr>
+                
                 <td >overwrite</td>
                 <td>If checked, the existing object will be overwritten.</td>
                 
@@ -623,6 +637,13 @@ and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/fil
     
 
     <h1 id="releaseNotes">Release Notes</h1>
+    
+    <h3>@PLUGIN_KEY@ 1.3.0</h3>
+    <ul>
+        
+        <li>"Cache Control" option has been added to Upload ... procedures.</li>
+        
+    </ul>
     
     <h3>@PLUGIN_KEY@ 1.2.0</h3>
     <ul>

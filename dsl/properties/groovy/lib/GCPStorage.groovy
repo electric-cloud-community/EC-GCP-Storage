@@ -42,15 +42,15 @@ class GCPStorage extends FlowPlugin {
     }()
 
 
-/**
- * downloadObjects - Download Objects/Download Objects
- * Add your code into this method and it will be called when the step runs
- * @param config (required: true)
- * @param bucketName (required: true)
- * @param path (required: true)
- * @param dest (required: true)
+    /**
+     * downloadObjects - Download Objects/Download Objects
+     * Add your code into this method and it will be called when the step runs
+     * @param config (required: true)
+     * @param bucketName (required: true)
+     * @param path (required: true)
+     * @param dest (required: true)
 
- */
+     */
     def downloadObjects(StepParameters p, StepResult sr) {
 
         /* Log is automatically available from the parent class */
@@ -74,15 +74,15 @@ class GCPStorage extends FlowPlugin {
     }
 
 
-/**
- * listObjects - List Objects/List Objects
- * Add your code into this method and it will be called when the step runs
- * @param config (required: true)
- * @param bucketName (required: true)
- * @param path (required: false)
- * @param resultProperty (required: true)
+    /**
+     * listObjects - List Objects/List Objects
+     * Add your code into this method and it will be called when the step runs
+     * @param config (required: true)
+     * @param bucketName (required: true)
+     * @param path (required: false)
+     * @param resultProperty (required: true)
 
- */
+     */
     def listObjects(StepParameters p, StepResult sr) {
 
         /* Log is automatically available from the parent class */
@@ -115,16 +115,16 @@ class GCPStorage extends FlowPlugin {
         sr.apply()
     }
 
-/**
- * uploadFolder - Upload Folder/Upload Folder
- * Add your code into this method and it will be called when the step runs
- * @param config (required: true)
- * @param bucketName (required: true)
- * @param folder (required: true)
- * @param destination (required: true)
- * @param makePublic (required: false)
+    /**
+     * uploadFolder - Upload Folder/Upload Folder
+     * Add your code into this method and it will be called when the step runs
+     * @param config (required: true)
+     * @param bucketName (required: true)
+     * @param folder (required: true)
+     * @param destination (required: true)
+     * @param makePublic (required: false)
 
- */
+     */
     def uploadFolder(StepParameters p, StepResult sr) {
 
         /* Log is automatically available from the parent class */
@@ -160,6 +160,7 @@ class GCPStorage extends FlowPlugin {
                 .makePublic(checked(p.asMap.makePublic as String))
                 .includes(includes)
                 .excludes(excludes)
+                .cacheControl(p.asMap.cacheControl)
                 .build()
         )
 
@@ -185,21 +186,21 @@ class GCPStorage extends FlowPlugin {
     }
 
 
-/**
- * uploadObject - Upload Object/Upload Object
- * Add your code into this method and it will be called when the step runs
- * @param config (required: true)
- * @param bucketName (required: true)
- * @param objectPath (required: false)
- * @param folder (required: false)
- * @param includePattern (required: )
- * @param excludePattern (required: )
- * @param destination (required: true)
- * @param makePublic (required: false)
- * @param overwrite (required: )
- * @param resultProperty (required: true)
+    /**
+     * uploadObject - Upload Object/Upload Object
+     * Add your code into this method and it will be called when the step runs
+     * @param config (required: true)
+     * @param bucketName (required: true)
+     * @param objectPath (required: false)
+     * @param folder (required: false)
+     * @param includePattern (required: )
+     * @param excludePattern (required: )
+     * @param destination (required: true)
+     * @param makePublic (required: false)
+     * @param overwrite (required: )
+     * @param resultProperty (required: true)
 
- */
+     */
     def uploadObject(StepParameters p, StepResult sr) {
 
         /* Log is automatically available from the parent class */
@@ -237,6 +238,7 @@ class GCPStorage extends FlowPlugin {
                 .builder()
                 .overwrite(checked(p.asMap.overwrite))
                 .makePublic(checked(p.asMap.makePublic))
+                .cacheControl(p.asMap.cacheControl)
                 .build()
 
         )
@@ -251,20 +253,20 @@ class GCPStorage extends FlowPlugin {
         FlowAPI.setFlowProperty("$result/link", object.getMediaLink())
     }
 
-/**
-    * runScript - Run Script/Run Script
-    * Add your code into this method and it will be called when the step runs
-    * @param config (required: true)
-    * @param script (required: true)
-    
-    */
+    /**
+     * runScript - Run Script/Run Script
+     * Add your code into this method and it will be called when the step runs
+     * @param config (required: true)
+     * @param script (required: true)
+
+     */
     def runScript(StepParameters p, StepResult sr) {
 
         /* Log is automatically available from the parent class */
         log.info(
-          "runScript was invoked with StepParameters",
-          /* runtimeParameters contains both configuration and procedure parameters */
-          p.toString()
+            "runScript was invoked with StepParameters",
+            /* runtimeParameters contains both configuration and procedure parameters */
+            p.toString()
         )
 
         String script = p.getRequiredParameter('script').value
@@ -272,7 +274,7 @@ class GCPStorage extends FlowPlugin {
         def compilerConfiguration = new CompilerConfiguration()
         compilerConfiguration.scriptBaseClass = DelegatingScript.class.name
         def shell = new GroovyShell(this.class.classLoader, new Binding([storage: storageClient]), compilerConfiguration)
-        def gcpScript = new StorageScript(storageClient, storage.project,FlowAPI.ec, storage)
+        def gcpScript = new StorageScript(storageClient, storage.project, FlowAPI.ec, storage)
         Script s = shell.parse(script)
         s.setDelegate(gcpScript)
         def result = s.run()
@@ -284,23 +286,23 @@ class GCPStorage extends FlowPlugin {
 
     }
 
-/**
-    * downloadObject - Download Object/Download Object
-    * Add your code into this method and it will be called when the step runs
-    * @param config (required: true)
-    * @param bucketName (required: true)
-    * @param path - file Name for downloading (required: true)
-    * @param dest (required: true)
-    * @param overwrite (required: )
-    
-    */
+    /**
+     * downloadObject - Download Object/Download Object
+     * Add your code into this method and it will be called when the step runs
+     * @param config (required: true)
+     * @param bucketName (required: true)
+     * @param path - file Name for downloading (required: true)
+     * @param dest (required: true)
+     * @param overwrite (required: )
+
+     */
     def downloadObject(StepParameters p, StepResult sr) {
 
         /* Log is automatically available from the parent class */
         log.info(
-          "downloadObject was invoked with StepParameters",
-          /* runtimeParameters contains both configuration and procedure parameters */
-          p.toString()
+            "downloadObject was invoked with StepParameters",
+            /* runtimeParameters contains both configuration and procedure parameters */
+            p.toString()
         )
         String path = p.getRequiredParameter('path')?.value
         String dest = p.getRequiredParameter('dest')?.value
@@ -325,7 +327,7 @@ class GCPStorage extends FlowPlugin {
         */
     }
 
-// === step ends ===
+    // === step ends ===
 
 }
 

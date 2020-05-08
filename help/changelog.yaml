@@ -6,3 +6,5 @@
   - Switched plugin to the cleaned layout.
 1.2.0:
   - Procedure "Download Object" has been added.
+1.3.0:
+  - '"Cache Control" option has been added to Upload ... procedures.'

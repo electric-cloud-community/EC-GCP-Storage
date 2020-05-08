@@ -3,7 +3,7 @@ pluginInfo:
   # Feel free to change it
   # Call flowpdk showdoc pluginspec to see the list of available fields and their description
   pluginName: 'EC-GCP-Storage'
-  version: '1.2.0'
+  version: '1.3.0'
   description: 'This plugin integrates with Google Cloud Storage'
   author: 'Polina'
   supportUrl: 'none'
@@ -153,6 +153,11 @@ procedures:
       uncheckedValue: false
       value: false
       required: false
+    - name: cacheControl
+      type: entry
+      label: Cache Control Header
+      documentation: The value for a cache control header.
+      required: false
     - name: overwrite
       type: checkbox
       checkedValue: true
@@ -208,6 +213,11 @@ procedures:
       documentation: If checked, the objects will be made public. Not applicable to the buckets with uniform access.
       uncheckedValue: false
       value: false
+      required: false
+    - name: cacheControl
+      type: entry
+      label: Cache Control Header
+      documentation: The value for a cache control header.
       required: false
     - name: overwrite
       type: checkbox
