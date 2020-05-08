@@ -163,6 +163,10 @@ class GCPWrapper {
             //Public access
             objectMetadata.setAcl(Arrays.asList(new ObjectAccessControl().setEntity("allUsers").setRole("READER")))
         }
+        if (p.cacheControl) {
+            objectMetadata.setCacheControl(p.cacheControl)
+        }
+        log.debug "Metadata: $objectMetadata"
         log.info "Set name to $path"
         StorageObject existing
         try {
@@ -178,9 +182,7 @@ class GCPWrapper {
         StorageObject object = storage.objects().insert(bucket, objectMetadata, contentStream).execute()
         log.info "Uploaded object $path to ${object.getMediaLink()}"
         return object
-
     }
-
 
 
     void deleteObject(String bucket, String path, boolean failIfMissing) {
@@ -230,4 +232,5 @@ class UploadOptions {
     boolean makePublic
     List<Pattern> includes
     List<Pattern> excludes
+    String cacheControl
 }
