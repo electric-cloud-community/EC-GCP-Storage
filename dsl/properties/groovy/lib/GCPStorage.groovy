@@ -5,7 +5,6 @@ import com.google.api.services.storage.Storage
 import com.google.api.services.storage.model.StorageObject
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
-import groovy.util.FileNameFinder
 import org.codehaus.groovy.control.CompilerConfiguration
 
 import java.util.regex.Pattern
@@ -94,7 +93,7 @@ class GCPStorage extends FlowPlugin {
 
         String bucket = p.getRequiredParameter('bucketName').value
         String path = p.getParameter('path')?.value ?: ''
-        String resultProperty = p.getRequiredParameter('resultProperty').value
+        String resultProperty = p.getParameter('resultProperty')?.value
 
         def objects = storage.listObjects(bucket, path)
         def result = [:]
@@ -106,11 +105,15 @@ class GCPStorage extends FlowPlugin {
                 createdEpochMiliseconds: it.getTimeCreated().value
             ]
             log.info "Found object: $name, size: ${it.getSize()}"
-            FlowAPI.setFlowProperty("$resultProperty/objects/$name/size", it.getSize().toString())
+            if (resultProperty) {
+                FlowAPI.setFlowProperty("$resultProperty/objects/$name/size", it.getSize().toString())
+            }
         }
         String json = JsonOutput.toJson(result)
         log.info "Objects: $json"
-        FlowAPI.setFlowProperty("$resultProperty/json", json)
+        if (resultProperty) {
+            FlowAPI.setFlowProperty("$resultProperty/json", json)
+        }
         sr.setOutputParameter('objects', json)
         sr.apply()
     }
@@ -168,15 +171,18 @@ class GCPStorage extends FlowPlugin {
         log.info "Objects: $json"
         sr.setOutputParameter('objects', json)
         sr.apply()
+        log.info "Applied output parameter"
 
-        String resultProperty = p.getRequiredParameter('resultProperty').value
-
-        FlowAPI.setFlowProperty("$resultProperty/json", json)
-        objects.each {
-            String name = it.getName()
-            FlowAPI.setFlowProperty("$resultProperty/objects/$name/link", it.getMediaLink())
-            FlowAPI.setFlowProperty("$resultProperty/objects/$name/size", it.getSize() as String)
-            FlowAPI.setFlowProperty("$resultProperty/objects/$name/contentType", it.getContentType())
+        String resultProperty = p.getParameter('resultProperty')?.value
+        if (resultProperty) {
+            FlowAPI.setFlowProperty("$resultProperty/json", json)
+            objects.each {
+                String name = it.getName()
+                FlowAPI.setFlowProperty("$resultProperty/objects/$name/link", it.getMediaLink())
+                FlowAPI.setFlowProperty("$resultProperty/objects/$name/size", it.getSize() as String)
+                FlowAPI.setFlowProperty("$resultProperty/objects/$name/contentType", it.getContentType())
+                log.info "Set property $resultProperty/objects/$name"
+            }
         }
     }
 
@@ -248,9 +254,11 @@ class GCPStorage extends FlowPlugin {
         sr.setOutputParameter('objectLink', object.getMediaLink())
         sr.apply()
 
-        String result = p.getRequiredParameter('resultProperty').value
-        FlowAPI.setFlowProperty("$result/json", json)
-        FlowAPI.setFlowProperty("$result/link", object.getMediaLink())
+        String result = p.getParameter('resultProperty')?.value
+        if (result) {
+            FlowAPI.setFlowProperty("$result/json", json)
+            FlowAPI.setFlowProperty("$result/link", object.getMediaLink())
+        }
     }
 
     /**
