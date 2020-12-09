@@ -1,0 +1,409 @@
+Plugin version 1.3.1
+
+Revised on December 09, 2020
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Plugin configurations
+
+Plugin configurations are sets of parameters that apply
+across some or all of the plugin procedures. They
+reduce repetition of common values, create
+predefined parameter sets for end users, and
+securely store credentials where needed. Each configuration
+is given a unique name that is entered in designated
+parameters on procedures that use them.
+
+
+=== Creating plugin configurations
+
+To create plugin configurations in CloudBees CD, do these steps:
+
+* Go to Adminstration -> Plugins to open the Plugin Manager.
+* Find the EC-GCP-Storage-1.3.1 row.
+* Click *Configure* to open the
+     Configurations page.
+* Click *Create Configuration* as per the description of parameters below.
+
+
+
+=== Configuration procedure parameters
+
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+|__**Configuration Name**__ | The name for the created configuration
+
+
+|Description | Description for the configuration
+
+
+|__**Service Account Key**__ | Service account key in JSON format
+
+
+|Check Connection? | If checked, the connection endpoint and credentials entered as part of the configuration will be tested. If this option is checked, configuration will not be saved if the test fails.
+
+
+|Debug Level | This option sets debug level for logs. If info is selected, only summary information will be shown, for debug, there will be some debug information and for trace the whole requests and responses will be shown.
+
+
+|===
+
+
+
+
+
+[[procedures]]
+== Plugin procedures
+
+
+
+
+[[DownloadObject]]
+=== Download Object
+
+
+This procedure download specific object from the specified path into the filesystem
+
+
+
+==== Download Object parameters
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+| __**Configuration Name**__ | Previously defined configuration for the plugin
+
+
+| __**Bucket**__ | Name of the bucket
+
+
+| __**File Name**__ | Full path to the file in bucket.
+
+
+| __**Destination**__ | Destination file on the filesystem.
+
+
+| Overwrite? | If checked, the file will be overwritten, otherwise the procedure will fail.
+
+
+|===
+
+
+
+
+
+
+[[DownloadObjects]]
+=== Download Objects
+
+
+This procedure downloads object from the specified path into the filesystem
+
+
+
+==== Download Objects parameters
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+| __**Configuration Name**__ | Previously defined configuration for the plugin
+
+
+| __**Bucket**__ | Name of the bucket
+
+
+| __**Path**__ | Path in the bucket to download objects from. Must be a folder prefix.
+
+
+| __**Destination**__ | Destination folder on the filesystem.
+
+
+| Overwrite? | If checked, the file will be overwritten, otherwise the procedure will fail.
+
+
+|===
+
+
+
+
+
+
+[[ListObjects]]
+=== List Objects
+
+
+This procedure lists the objects in the specified bucket
+
+
+
+==== List Objects parameters
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+| __**Configuration Name**__ | Previously defined configuration for the plugin
+
+
+| __**Bucket**__ | Bucket name to list object in.
+
+
+| Path | Path to filter objects
+
+
+| __**Result Property Sheet**__ | Property sheet to store results
+
+
+|===
+
+
+
+==== Output parameters
+
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+|objects |JSON list of objects found
+
+|===
+
+
+
+
+
+[[RunScript]]
+=== Run Script
+
+
+Runs a custom groovy script with the prepared Storage client
+
+
+
+==== Run Script parameters
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+| __**Configuration Name**__ | Previously defined configuration for the plugin
+
+
+| __**Script**__ | Script to evaluate. The following variables are accessible:
+
+storage - storage client
+ef - ElectricFlow Groovy API client
+zone - zone name from the configuration
+project - project ID from the configuration
+wrapper - Storage wrapper from this plugin
+
+Both wrapper and compute clients are already initialized.
+
+
+
+|===
+
+
+
+==== Output parameters
+
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+|output |Some output parameter to use in the script
+
+|===
+
+
+
+
+
+[[UploadFolder]]
+=== Upload Folder
+
+
+This procedure uploads a folder to bucket
+
+
+
+==== Upload Folder parameters
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+| __**Configuration Name**__ | Previously defined configuration for the plugin
+
+
+| __**Bucket Name**__ | Target bucket name.
+
+
+| Source Folder | Folder path to upload. Can be either absolute or relative (will be calculated from the job workspace).
+
+
+| Include Patterns | Regular expression for file names to include into the upload, e.g. .*log, newline-separated.
+
+
+
+| Exclude Patterns | Regular expression for file names to exclude from the upload, e.g. .*log, newline-separated.
+
+
+
+| __**Destination Object Path**__ | Destination path in the target bucket, e.g. my/path. If the file in the folder named {folder}/path/file,
+and the path is my/folder, it will be placed at gs://{bucket}/my/folder/path/file.
+
+
+
+| Make Public? | If checked, the objects will be made public. Not applicable to the buckets with uniform access.
+
+
+| Cache Control Header | The value for a cache control header.
+
+
+| overwrite | If checked, the existing object will be overwritten.
+
+
+| Result Property Sheet | Result property sheet to save results to. If not provided, the results will be saved into output parameters only.
+
+
+|===
+
+
+
+==== Output parameters
+
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+|objects |JSON representation of the uploaded objects
+
+|===
+
+
+
+
+
+[[UploadObject]]
+=== Upload Object
+
+
+This procedure uploads an object to bucket
+
+
+
+==== Upload Object parameters
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+| __**Configuration Name**__ | Previously defined configuration for the plugin
+
+
+| __**Bucket Name**__ | Name of the bucket to upload objects to.
+
+
+| File Path | Path to the file, may be either absolute or relative to the job workspace.
+
+
+| File Folder | Folder to look for the file if the file name is not determined.
+
+
+| Include Pattern | Include pattern to look for the file, e.g. \.log$
+
+
+| Exclude Pattern | Exclude pattern to be used while looking for the file, e.g. \.log$
+
+
+| __**Destination Path**__ | Path in the bucket to upload objects to.
+
+
+| Make Public? | If checked, the objects will be made public. Not applicable to the buckets with uniform access.
+
+
+| Cache Control Header | The value for a cache control header.
+
+
+| overwrite | If checked, the existing object will be overwritten.
+
+
+| __**Result Property Sheet**__ | Property sheet to save results.
+
+
+|===
+
+
+
+==== Output parameters
+
+[cols=",",options="header",]
+|===
+|Parameter |Description
+
+|object |JSON representation of the uploaded object
+
+|objectLink |Media link of the uploaded object.
+
+|===
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Known issues
+NA
+
+
+
+
+[[rns]]
+== Release notes
+
+
+=== EC-GCP-Storage 1.3.0
+
+- "Cache Control" option has been added to Upload ... procedures.
+
+
+=== EC-GCP-Storage 1.2.0
+
+- Procedure "Download Object" has been added.
+
+
+=== EC-GCP-Storage 1.1.0
+
+- Switched plugin to the cleaned layout.
+
+
+=== EC-GCP-Storage 1.0.1
+
+- Help document Added.
+
+
+=== EC-GCP-Storage 1.0.0
+
+- Introduced the EC-GCP-Storage plugin.
+
+
