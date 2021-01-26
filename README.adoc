@@ -382,9 +382,14 @@ NA
 == Release notes
 
 
+=== EC-GCP-Storage 1.3.2
+
+- Updated dependencies.
+
+
 === EC-GCP-Storage 1.3.1
 
-- Updated pdk assets.
+- Fixed file name finder.
 
 
 === EC-GCP-Storage 1.3.0
