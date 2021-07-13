@@ -41,6 +41,16 @@ class GCPStorage extends FlowPlugin {
     }()
 
 
+    def checkConnection(StepParameters p, StepResult sr) {
+        try {
+            storage.testConnection()
+        } catch (Throwable e) {
+            sr.setOutcomeProperty("/myJob/configError", e.message)
+            throw e
+        }
+    }
+
+
     /**
      * downloadObjects - Download Objects/Download Objects
      * Add your code into this method and it will be called when the step runs

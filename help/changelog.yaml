@@ -12,3 +12,5 @@
   - Fixed file name finder.
 1.3.2:
   - Updated dependencies.
+1.4.0:
+  - Added support for the plugin configuration objects.

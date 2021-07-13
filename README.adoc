@@ -1,6 +1,6 @@
-Plugin version @PLUGIN_VERSION@
+Plugin version 1.4.0
 
-Revised on Jan 26, 2021
+Revised on July 13, 2021
 
 
 
@@ -28,12 +28,12 @@ parameters on procedures that use them.
 
 === Creating plugin configurations
 
-To create plugin configurations in {CD}, do these steps:
+To create plugin configurations in CloudBees CD, do these steps:
 
-* Go to menu:Admistration[Plugins] to open the Plugin Manager.
-* Find the @PLUGIN_NAME@ row.
+* Go to Adminstration -> Plugins to open the Plugin Manager.
+* Find the EC-GCP-Storage-1.4.0 row.
 * Click *Configure* to open the
-Configurations page.
+     Configurations page.
 * Click *Create Configuration* as per the description of parameters below.
 
 
@@ -380,6 +380,11 @@ NA
 
 [[rns]]
 == Release notes
+
+
+=== EC-GCP-Storage 1.4.0
+
+- Added support for the plugin configuration objects.
 
 
 === EC-GCP-Storage 1.3.2
